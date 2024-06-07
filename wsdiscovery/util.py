@@ -253,7 +253,9 @@ def _getNetworkAddrs(protocol_version):
             for addrDict in iface_info[protocol_version]:
                 addr = addrDict['addr']
                 ip_address = ipaddress.ip_address(addr)
-                if not ip_address.is_loopback:
+
+                # issue #61: only link local addresses
+                if ip_address.is_link_local:
                     result.append(ip_address)
     return result
 
